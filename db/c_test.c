@@ -10,6 +10,9 @@
 #include <string.h>
 #include <sys/types.h>
 #include <unistd.h>
+#ifdef LEVELDB_PLATFORM_WINDOWS
+#include <time.h>
+#endif
 
 const char* phase = "";
 static char dbname[200];
@@ -171,7 +174,12 @@ int main(int argc, char** argv) {
   snprintf(dbname, sizeof(dbname),
            "%s/leveldb_c_test-%d",
            GetTempDir(),
+
+#ifdef LEVELDB_PLATFORM_WINDOWS
+           ((int) time(NULL)));
+#else
            ((int) geteuid()));
+#endif
 
   StartPhase("create_objects");
   cmp = leveldb_comparator_create(NULL, CmpDestroy, CmpCompare, CmpName);

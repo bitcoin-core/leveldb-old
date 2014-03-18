@@ -11,3 +11,6 @@ Release
 Debug
 Benchmark
 vs2010.*
+*.exe
+*.dll
+/tmp
