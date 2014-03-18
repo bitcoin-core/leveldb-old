@@ -377,6 +377,9 @@ BOOL Win32SequentialFile::_Init()
                          OPEN_EXISTING,
                          FILE_ATTRIBUTE_NORMAL,
                          NULL);
+    if(INVALID_HANDLE_VALUE == _hFile) {
+        _hFile = NULL;
+    }
     return _hFile ? TRUE : FALSE;
 }
 
@@ -560,6 +563,11 @@ Status Win32MapFile::Close()
 {
     Status s;
     size_t unused = _limit - _dst;
+
+    if(NULL == _hFile) {
+        return s;
+    }
+
     if (!_UnmapCurrentRegion()) {
         s = Status::IOError("WinMmapFile.Close::UnmapCurrentRegion: ",Win32::GetLastErrSz());
     } else if (unused > 0) {
@@ -576,11 +584,10 @@ Status Win32MapFile::Close()
             s = Status::IOError("WinMmapFile.Close::CloseHandle: ", Win32::GetLastErrSz());
         }
     }
-    _hFile = INVALID_HANDLE_VALUE;
+    _hFile = NULL;
     _base = NULL;
     _base_handle = NULL;
     _limit = NULL;
-
     return s;
 }
 
@@ -614,9 +621,7 @@ Status Win32MapFile::Flush()
 
 Win32MapFile::~Win32MapFile()
 {
-    if (_hFile != INVALID_HANDLE_VALUE) { 
-        Win32MapFile::Close();
-    }
+    Win32MapFile::Close();
 }
 
 BOOL Win32MapFile::_Init( LPCWSTR Path )
@@ -629,10 +634,10 @@ BOOL Win32MapFile::_Init( LPCWSTR Path )
                          Flag,
                          FILE_ATTRIBUTE_NORMAL,
                          NULL);
-    if(!_hFile || _hFile == INVALID_HANDLE_VALUE)
-        return FALSE;
-    else
-        return TRUE;
+    if(INVALID_HANDLE_VALUE == _hFile) {
+        _hFile = NULL;
+    } 
+    return _hFile ? TRUE : FALSE;
 }
 
 BOOL Win32MapFile::isEnable()
