@@ -11,6 +11,11 @@
 #include "leveldb/write_batch.h"
 #include "util/testharness.h"
 
+
+#ifdef _MSC_VER
+#define snprintf _snprintf
+#endif
+
 namespace {
 
 const int kNumKeys = 1100000;
