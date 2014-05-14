@@ -1,13 +1,53 @@
 build_config.mk
-*.a
+*_test
+*.exe
+*.dll
+
+
+# Compiled Object files
+*.slo
+*.lo
 *.o
-*.dylib*
+*.obj
+
+# Compiled Dynamic libraries
 *.so
 *.so.*
-*_test
-db_bench
-leveldbutil
-Release
-Debug
-Benchmark
-vs2010.*
+*.dylib
+*.dll
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+# Visual Studio uglies
+*.suo
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+*.opensdf
+*.ncrunchsolution*
+*.sdf
+*.vsp
+*.psess
+
+# Build artifacts
+Default/
+Debug/
+builds/
+tools/gyp
+tmp/
+
+
+# format code artifacts
+format_code.bat
+*.orig
+*.i

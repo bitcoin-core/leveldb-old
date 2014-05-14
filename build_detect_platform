@@ -147,13 +147,16 @@ case "$TARGET_OS" in
         PLATFORM_SHARED_CFLAGS=
         PLATFORM_SHARED_VERSIONED=
         ;;
-    OS_WINDOWS_CROSSCOMPILE | NATIVE_WINDOWS)
+    OS_WINDOWS_CROSSCOMPILE | NATIVE_WINDOWS | MINGW32*)
         PLATFORM=OS_WINDOWS
         COMMON_FLAGS="-fno-builtin-memcmp -D_REENTRANT -DOS_WINDOWS -DLEVELDB_PLATFORM_WINDOWS -DWINVER=0x0500 -D__USE_MINGW_ANSI_STDIO=1"
         PLATFORM_SOURCES="util/env_win.cc"
         PLATFORM_LIBS="-lshlwapi"
         PORT_FILE=port/port_win.cc
         CROSS_COMPILE=true
+        CC=gcc
+        PLATFORM_SHARED_VERSIONED=false
+        PLATFORM_SHARED_EXT="dll"
         ;;
     *)
         echo "Unknown platform!" >&2
