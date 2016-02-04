@@ -11,3 +11,8 @@ Release
 Debug
 Benchmark
 vs2010.*
+autom4te.cache/
+config.log
+config.status
+configure
+
